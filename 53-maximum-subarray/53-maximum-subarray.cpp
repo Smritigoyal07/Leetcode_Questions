@@ -1,32 +1,21 @@
-//using kadane's algorithm
-
 class Solution {
 public:
-    int maxSubArray(vector<int>& arr) 
+    int maxSubArray(vector<int>& nums) 
     {
-        int maxSum = INT_MIN;
         int curSum = 0;
-        int max_idx = arr[0];
+        int maxSum = INT_MIN;
         
-        for(int i = 0 ; i < arr.size() ; i++)
+        for(int i=0 ; i<nums.size();i++)
         {
-            curSum+=arr[i];
+            curSum += nums[i];
+            maxSum = max(maxSum,curSum);
             
-            if(arr[i] > max_idx)
-                max_idx = arr[i];
-            
-            if(curSum < 0 ){
-                curSum = 0 ;
+            if(curSum < 0)
+            {
+                curSum = 0;
             }
-            
-            maxSum = max(maxSum , curSum);
         }
-    
-        if(max_idx>maxSum || maxSum==0){
-            return max_idx;
-        }
+        
         return maxSum;
     }
 };
-
-// i can't initialise maxSum with any value as that would lead to wrong ans 
