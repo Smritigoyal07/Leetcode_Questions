@@ -115,18 +115,18 @@ class Solution
             for(int i=0 ; i<count ; i++)
             {
                 Node* node=q.front().first;
-                int in=q.front().second;
+                int vertical=q.front().second;
                 q.pop();
                 
-                mp[in].push_back(node->data);
+                mp[vertical].push_back(node->data);
                 
                 if(node->left!=NULL)
                 {
-                    q.push({node->left,in-1});
+                    q.push({node->left,vertical-1});
                 }
                 if(node->right!=NULL)
                 {
-                    q.push({node->right,in+1});
+                    q.push({node->right,vertical+1});
                 }
             }
         }
