@@ -1,103 +1,43 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
- // } Driver Code Ends
+// } Driver Code Ends
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
+    // using dfs
     
-    bool lol(int i,int V,vector<int>&vis,vector<int> adj[])
-    {
+    bool dfsCycledetection(int i,int parent, vector<int> adj[], vector<int> &visited){
+        visited[i] = 1;
         
-        queue<pair<int,int>>q;
-        // vis[i]=true;
-        q.push(make_pair(i,-1));
-        
-        while(!q.empty())
-        {
-            int curr=q.front().first;
-            int prev=q.front().second;
-            vis[i]=1;
-            q.pop();
-            
-            for(auto j:adj[curr])
-            {
-                if(!vis[j])
-                {
-                    vis[j]=1;
-                    q.push(make_pair(j,curr));
-                }
-                else if( vis[j]==1 && prev!=j)
-                {
-                    return true; 
-                }
-            }
-            
-        }
-        
-        return false;
-        
-    }    
-    
-    bool isCycle(int V, vector<int> adj[]) {
-        // Code here
-        // queue<pair<int,int>>q;
-        vector<int>vis(V,0);
-        for(int i=0 ; i<V ; i++)
-        {
-            if(vis[i]==0)
-            {
-                if(lol(i,V,vis,adj))
-                {
+        for(auto it: adj[i]){
+            if(!visited[it]){
+                if(dfsCycledetection(it,i,adj,visited)){
                     return true;
                 }
             }
+            else if(visited[it]==1 && it!=parent)
+                return true;
         }
-        
         return false;
     }
     
-    // bool check(int i, vector<int> &visited , vector<int> adj[]){
-    //     queue<pair<int,int>> q;
-    //     visited[i] = 1;
-    //     q.push({1,-1});
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code 
+        vector<int> visited(V,0);
         
-    //     while(!q.empty()){
-    //         int node = q.front().first;
-    //         int parent = q.front().second;
-            
-    //         for(auto it: adj[node]){
-    //             if(visited[it] == 0 ){
-    //                 visited[it] = 1;
-    //                 q.push({it,node});
-    //             }
-    //             else if(it!=parent){
-    //                 return true ;
-    //             }
-    //         }
-            
-    //         return false;
-    //     }
-        
-    // }
-    
-    // bool isCycle(int V, vector<int> adj[]) {
-    //     vector<int> visited(V,0);
-        
-    //     for(int i = 0 ; i < V ; i++){
-    //         if(!visited[i]){
-    //             if(check(i,visited,adj)){
-    //                 return true;
-    //             }
-    //         }
-    //     }
-        
-    //     return false;
-    // }
+        for(int i = 0 ; i < V ;i++){
+            if(!visited[i]){
+                if(dfsCycledetection(i,-1,adj,visited))
+                    return true;
+            }
+        }
+        return false;
+    }
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 int main() {
     int tc;
     cin >> tc;
@@ -119,4 +59,5 @@ int main() {
             cout << "0\n";
     }
     return 0;
-}  // } Driver Code Ends
+}
+// } Driver Code Ends
